@@ -1,0 +1,65 @@
+name: PickaxePlus
+main: com.franckie20.PickaxePlus.PickaxePlus
+version: beta-0.1
+
+commands:
+   PickaxePlus:
+      description: this is the plugins main command.
+      usage: /<command> <help>
+
+permissions:
+    pickaxeplus.*:
+        description: Give access to all PickaxePlus commands
+        children:
+            pickaxeplus.give.self: true
+            pickaxeplus.give.other: true
+            pickaxeplus.reload: true
+            pickaxeplus.use.smelterspickaxe: true
+            pickaxeplus.use.explosivepickaxe: true
+            pickaxeplus.use.speedpickaxe: true
+            pickaxeplus.use.obsidianpickaxe: true
+            pickaxeplus.use.obsidianaxe: true
+            pickaxeplus.craft.smelterspickaxe: true
+            pickaxeplus.craft.explosivepickaxe: true
+            pickaxeplus.craft.speedpickaxe: true
+            pickaxeplus.craft.obsidianpickaxe: true
+            pickaxeplus.craft.obsidianaxe: true
+    pickaxeplus.give.self:
+        description: Allows you to give PickaxePlus items to yourself
+        default: op
+    pickaxeplus.give.other:
+        description: Allows you to give PickaxePlus items to yourself
+        default: op
+    pickaxeplus.reload:
+        description: Allows you to reload the PickaxePlus configuration
+        default: op
+    pickaxeplus.use.smelterspickaxe:
+        description: Allows you use the Smelters Pickaxe
+        default: op
+    pickaxeplus.use.explosivepickaxe:
+        description: Allows you use the Explosive Pickaxe
+        default: op
+    pickaxeplus.use.speedpickaxe:
+        description: Allows you use the Speed Pickaxe
+        default: op
+    pickaxeplus.use.obsidianpickaxe:
+        description: Allows you use the Obsidian Pickaxe
+        default: op
+    pickaxeplus.use.obsidianaxe:
+        description: Allows you use the Obsidian Axe
+        default: op
+    pickaxeplus.craft.obsidianaxe:
+        description: Allows you craft the Obsidian Axe
+        default: op
+    pickaxeplus.craft.obsidianpickaxe:
+        description: Allows you craft the Obsidian Pickaxe
+        default: op
+    pickaxeplus.craft.smelterspickaxe:
+        description: Allows you craft the Smelters Pickaxe
+        default: op
+    pickaxeplus.craft.speedpickaxe:
+        description: Allows you craft the Speed Pickaxe
+        default: op
+    pickaxeplus.craft.explosivepickaxe:
+        description: Allows you craft the Explosive Pickaxe
+        default: op

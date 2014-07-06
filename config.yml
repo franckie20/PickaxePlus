@@ -1,0 +1,16 @@
+# PickaxePlus Configuration
+# Created by Franckie20
+# Make sure not to add any lines, as they won't do anything
+# speed-buff-duration is in ticks (20 ticks = 1 sec)
+# cooldown is in ticks (12000 = 10 min)
+
+speed-buff-duration: 200
+cooldown: 12000
+
+items:
+  - Smelters Pickaxe - (SmeltersPick)
+  - Obsidian Axe - (ObsidianAxe)
+  - Obsidian Pickaxe (ObsidianPick)
+  - Explosive Pickaxe - (ExplosivePick)
+  - Speed Pickaxe - (SpeedPick)
+  
