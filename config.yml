@@ -13,4 +13,10 @@ items:
   - Obsidian Pickaxe (ObsidianPick)
   - Explosive Pickaxe - (ExplosivePick)
   - Speed Pickaxe - (SpeedPick)
-  
+ 
+breakable:
+  - IRON_ORE
+  - DIAMOND_ORE
+  - GOLD_ORE
+  - LAPIS_ORE
+  - REDSTONE_ORE

@@ -1,87 +1,93 @@
 package com.franckie20.PickaxePlus;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class ExplosivePickaxeListener implements Listener {
 
-	public ExplosivePickaxeListener(PickaxePlus plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
+	private PickaxePlus plugin;
 	
+	public ExplosivePickaxeListener(PickaxePlus plugin) {
+		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		this.plugin = plugin;
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onPlayerInteract(PlayerInteractEvent  e2) {
-		final Player p = e2.getPlayer();
+	public void onBlockBreak(BlockBreakEvent event) {
+		final Player p = event.getPlayer();
 		ItemStack item;
-   	 	Block current;
-   	 	item = p.getItemInHand();
-		
-		if(!p.hasPermission("pickaxeplus.use.explosivepickaxe")) {
+		Block current;
+		item = p.getItemInHand();
+
+		if (!p.hasPermission("pickaxeplus.use.explosivepickaxe")) {
 			p.sendMessage(ChatColor.GRAY + "[PickaxePlus] " + "You are not allowed to use this!");
-			e2.setCancelled(true);
+			event.setCancelled(true);
 			p.getInventory().getItemInHand().setDurability((short) 0);
 		}
-		
-		if(p.hasPermission("pickaxeplus.use.explosivepickaxe")) {
-			if (item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Explosive Pickaxe"))
-	    	 {
-				Block target = e2.getClickedBlock();
-	    		Block centre = target;
-	    		 
-	    	
-	    		 BlockFace tempFace = e2.getBlockFace();
-	    		 if (tempFace.equals(BlockFace.UP) || tempFace.equals(BlockFace.DOWN))
-	    		 {
-	    			 current = centre.getRelative(BlockFace.NORTH, 1);
-	        		 current.breakNaturally();
-	        		 current = centre.getRelative(BlockFace.NORTH_EAST, 1);
-	        		 current.breakNaturally();
-	        		 current = centre.getRelative(BlockFace.SOUTH, 1);
-	        		 current.breakNaturally();
-	        		 current = centre.getRelative(BlockFace.SOUTH_EAST, 1);
-	        		 current.breakNaturally();
-	        		 current = centre.getRelative(BlockFace.EAST, 1);
-	        		 current.breakNaturally();
-	        		 target.breakNaturally();
-	    		 }
-	    		 else if (tempFace.equals(BlockFace.NORTH) || tempFace.equals(BlockFace.SOUTH))
-	    		 {
-	    			 current = centre.getRelative(BlockFace.WEST, 1);
-	    			 current.breakNaturally();
-	    			 centre = target.getRelative(BlockFace.UP, 1);
-					 centre.breakNaturally(); 
-	    			 current = centre.getRelative(BlockFace.WEST, 1);
-	    			 current.breakNaturally();
-	    			 centre = target.getRelative(BlockFace.DOWN, 1);
-					 centre.breakNaturally();
-	    			 current = centre.getRelative(BlockFace.WEST, 1);
-	    			 current.breakNaturally();
-	    			 target.breakNaturally();
-	    			 
-	    		 }
-	    		 else if (tempFace.equals(BlockFace.EAST) || tempFace.equals(BlockFace.WEST))
-	    		 {
-	    			 current = centre.getRelative(BlockFace.NORTH, 1);
-	    			 current.breakNaturally();
-	    			 centre = target.getRelative(BlockFace.UP, 1);
-					 centre.breakNaturally(); 
-	    			 current = centre.getRelative(BlockFace.NORTH, 1);
-	    			 current.breakNaturally();
-	    			 centre = target.getRelative(BlockFace.DOWN, 1);
-					 centre.breakNaturally();
-					 current = centre.getRelative(BlockFace.NORTH, 1);
-	    			 current.breakNaturally();
-	    			 target.breakNaturally();
-	    			 
-	    		 }
-	    	 }
+
+		if (p.hasPermission("pickaxeplus.use.explosivepickaxe")) {
+			if(event.getPlayer().getItemInHand().getType() == Material.DIAMOND_PICKAXE) {
+				if (item.getItemMeta().getDisplayName().equals(ChatColor.RED + "Explosive Pickaxe")) {
+					Block target = event.getBlock();
+					Block centre = target;
+					Location loc = target.getLocation();
+					List<String> breakable = plugin.getConfig().getStringList("breakable");
+
+					for(String s : breakable) {
+						if (target.getRelative(BlockFace.UP).getType() == Material.getMaterial(s) || target.getRelative(BlockFace.DOWN).getType() == Material.getMaterial(s)){
+							p.getWorld().createExplosion(loc, 0);
+							current = centre.getRelative(BlockFace.NORTH, 1);
+			    			if(current.getType() == Material.getMaterial(s)) {
+			    				current.breakNaturally();
+			    			}
+			        		current = centre.getRelative(BlockFace.SOUTH, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		current = centre.getRelative(BlockFace.SOUTH_EAST, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		current = centre.getRelative(BlockFace.EAST, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		target.breakNaturally();
+			    		 }
+						if (target.getRelative(BlockFace.NORTH).getType() == Material.getMaterial(s) || target.getRelative(BlockFace.SOUTH).getType() == Material.getMaterial(s)){
+							p.getWorld().createExplosion(loc, 0);
+							current = centre.getRelative(BlockFace.UP, 1);
+			    			if(current.getType() == Material.getMaterial(s)) {
+			    				current.breakNaturally();
+			    			}
+			        		current = centre.getRelative(BlockFace.DOWN, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		current = centre.getRelative(BlockFace.SOUTH_EAST, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		current = centre.getRelative(BlockFace.EAST, 1);
+			        		if(current.getType() == Material.getMaterial(s)) {
+								current.breakNaturally();
+							}
+			        		target.breakNaturally();
+						}
+					}
+				}
+			}
 		}
 	}
 }
